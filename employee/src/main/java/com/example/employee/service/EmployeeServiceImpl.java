@@ -5,9 +5,11 @@ import java.time.Period;
 import java.util.List;
 import java.util.Optional;
 
+//import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.employee.exception.IdNotFound;
 import com.example.employee.exception.ObjectISNull;
 import com.example.employee.model.EmployeeModel;
 import com.example.employee.repositiory.EmployeeRepositiory;
@@ -16,10 +18,11 @@ import com.example.employee.repositiory.EmployeeRepositiory;
 public class EmployeeServiceImpl implements EmployeeService{
     @Autowired
     EmployeeRepositiory employeeRepositiory;
-
+   // private static final Logger LOGGER=LoggerFactory.getLogger("EmployeeServicesImpl.class");
     @Override
     public EmployeeModel saveEmployee(EmployeeModel employeeModel) {
-       if(employeeModel==null)
+    
+       if(employeeModel==null||employeeModel.getEmp_name()==null)
        {
         throw new ObjectISNull("Object Is Null");
        }
@@ -40,7 +43,7 @@ public class EmployeeServiceImpl implements EmployeeService{
         }
         else
         {
-            throw new ObjectISNull("Id Not Found");
+            throw new IdNotFound("Id Not Found");
         }
     }
 
@@ -49,7 +52,7 @@ public class EmployeeServiceImpl implements EmployeeService{
        List<EmployeeModel>list=employeeRepositiory.findAll();
        if(list.isEmpty())
        {
-
+        throw new IdNotFound("Id IS Not Found");
        }
        return list;
     }

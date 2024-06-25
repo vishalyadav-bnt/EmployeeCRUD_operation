@@ -25,4 +25,5 @@ public class EmployeeModel {
     private String emp_name;
     private int emp_sal;
     private Date birthDate;
+  
 }
