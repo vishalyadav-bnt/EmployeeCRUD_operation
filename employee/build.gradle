@@ -43,7 +43,7 @@ tasks.named('test') {
 sonarqube {
     properties {
         property "sonar.projectKey", "employee"
-        property "sonar.host.url", "http://localhost:9000"
+        property "sonar.host.url", "http://sonarqube-server:9000"
         property "sonar.login", "admin" // Optional: replace with your SonarQube token if needed
         property "sonar.password", "admin" // Optional: you can remove this if you're using a token
     }
