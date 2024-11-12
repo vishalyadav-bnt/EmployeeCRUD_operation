@@ -31,7 +31,7 @@ jobs:
           sleep 30  # wait for SonarQube to start
 
           # Run Sonar Scanner
-          ./gradlew sonarqube -Dsonar.projectKey=employee \
+          gradlew sonarqube -Dsonar.projectKey=employee \
                               -Dsonar.host.url=http://localhost:9000 \
                               -Dsonar.login=admin \
                               -Dsonar.password=admin
