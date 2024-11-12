@@ -24,15 +24,15 @@ jobs:
 
       - name: Run SonarQube with TestContainers
         env:
-          SONAR_SCANNER_OPTS: "-Dsonar.projectKey=employee -Dsonar.host.url=http://localhost:9000"
+          SONAR_SCANNER_OPTS: "-Dsonar.projectKey=employee -Dsonar.host.url=http://sonarqube:9000"
         run: |
           # Run the SonarQube container with TestContainers in GitHub Action
           docker run -d --name sonarqube -p 9000:9000 sonarqube:community
           sleep 30  # wait for SonarQube to start
 
           # Run Sonar Scanner
-          gradlew sonarqube -Dsonar.projectKey=employee \
-                              -Dsonar.host.url=http://localhost:9000 \
+          gradlew sonar -Dsonar.projectKey=employee \
+                              -Dsonar.host.url=http://sonarqube:9000 \
                               -Dsonar.login=admin \
                               -Dsonar.password=admin
 
@@ -52,3 +52,6 @@ jobs:
         uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: $GITHUB_WORKSPACE/sarif-report.sarif
+      - name: View SonarQube Logs
+        run: |
+             docker logs sonarqube
