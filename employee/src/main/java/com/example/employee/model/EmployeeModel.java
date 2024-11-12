@@ -17,11 +17,9 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "EmployeeRecord")
 public class EmployeeModel {
-    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    
     private String emp_name;
     private int emp_sal;
     private Date birthDate;

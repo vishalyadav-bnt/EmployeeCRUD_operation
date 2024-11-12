@@ -11,23 +11,19 @@ import com.example.employee.response.ErrorResponse;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
-    private static final Logger LOGGER=LoggerFactory.getLogger(GlobalExceptionHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
     @ExceptionHandler(ObjectISNull.class)
-    public ResponseEntity<ErrorResponse>handleObjectIsNull(ObjectISNull e)
-    {
-        LOGGER.info("Object Is Empty {}"+e.getMessage());
-        ErrorResponse errorResponse=new ErrorResponse(e.getMessage(),HttpStatus.CONFLICT.value());
-        return new ResponseEntity<>(errorResponse,HttpStatus.CONFLICT);
-
-
+    public ResponseEntity<ErrorResponse> handleObjectIsNull(ObjectISNull e) {
+        LOGGER.info("Object Is Empty {}" + e.getMessage());
+        ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), HttpStatus.CONFLICT.value());
+        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
     }
+
     @ExceptionHandler(IdNotFound.class)
-    public ResponseEntity<ErrorResponse>handleObjectIsNull(IdNotFound e)
-    {
-        LOGGER.info("Id Not Found"+e.getMessage());
-        ErrorResponse errorResponse=new ErrorResponse(e.getMessage(),HttpStatus.CONFLICT.value());
-        return new ResponseEntity<>(errorResponse,HttpStatus.CONFLICT);
-
-
+    public ResponseEntity<ErrorResponse> handleObjectIsNull(IdNotFound e) {
+        LOGGER.info("Id Not Found" + e.getMessage());
+        ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), HttpStatus.CONFLICT.value());
+        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
     }
 }

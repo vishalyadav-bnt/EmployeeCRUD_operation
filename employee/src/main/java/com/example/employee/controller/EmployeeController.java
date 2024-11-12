@@ -1,6 +1,7 @@
 package com.example.employee.controller;
 
 import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,15 +12,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.example.employee.model.EmployeeModel;
 import com.example.employee.response.SuccessResponse;
-
 import com.example.employee.service.EmployeeServiceImpl;
 
 @RestController
-@RequestMapping("v1/employee")
+//@RequestMapping("v1/employee")
 public class EmployeeController {
     private static final Logger LOGGER=LoggerFactory.getLogger(EmployeeController.class);
     @Autowired
@@ -55,6 +55,14 @@ public class EmployeeController {
         LOGGER.info("Send Response Send Succesfully");
         return new ResponseEntity<>(successResponse,HttpStatus.OK);
     }
+
+    @GetMapping("/sayhello")
+    public String sayHello()
+    {
+        return "Success...";
+    }
+
+    
 
 
 }

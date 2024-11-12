@@ -1,0 +1,54 @@
+name: SAST with SonarQube
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  sast:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@v2
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Run SonarQube with TestContainers
+        env:
+          SONAR_SCANNER_OPTS: "-Dsonar.projectKey=employee -Dsonar.host.url=http://localhost:9000"
+        run: |
+          # Run the SonarQube container with TestContainers in GitHub Action
+          docker run -d --name sonarqube -p 9000:9000 sonarqube:community
+          sleep 30  # wait for SonarQube to start
+
+          # Run Sonar Scanner
+          ./gradlew sonarqube -Dsonar.projectKey=employee \
+                              -Dsonar.host.url=http://localhost:9000 \
+                              -Dsonar.login=admin \
+                              -Dsonar.password=admin
+
+      - name: Generate SARIF Report
+        run: |
+          # Assuming SonarQube analysis produces a SARIF file
+          # Move SARIF file to designated location for upload
+          mv target/sonar/sarif-report.sarif $GITHUB_WORKSPACE/
+
+      - name: Upload SARIF report to GitHub Container Registry
+        uses: actions/upload-artifact@v2
+        with:
+          name: SonarQube-SARIF-Report
+          path: $GITHUB_WORKSPACE/sarif-report.sarif
+
+      - name: Publish SARIF report for GitHub Code Scanning
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: $GITHUB_WORKSPACE/sarif-report.sarif
