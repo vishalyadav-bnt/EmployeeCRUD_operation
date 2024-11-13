@@ -1,17 +1,65 @@
-name: Hello World Action
+name: Static Application Security Testing with SonarQube
 
 on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  say-hello:
+  sonar:
     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+    services:
+      sonar:
+        image: ghcr.io/testcontainers/sonarqube:lts  # Pull SonarQube image from GitHub Container Registry
+        options: --health-cmd="curl --silent --fail http://localhost:9000/api/system/health" --health-interval=10s --health-timeout=5s --health-retries=3
+        ports:
+          - 9000:9000  # Expose SonarQube on port 9000
+        volumes:
+          - sonar_data:/opt/sonarqube/data
 
-      - name: Print Hello World
-        run: echo "Hello World!"
+    steps:
+      # Step 1: Checkout the code
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Step 2: Set up JDK 17
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+
+      # Step 3: Set up Gradle
+      - name: Set up Gradle
+        uses: gradle/wrapper-validation-action@v2
+        with:
+          gradle-version: '8.8'  # Use the appropriate Gradle version
+
+      # Step 4: Build the project using Gradle (without tests)
+      - name: Build with Gradle
+        run: ./gradlew clean build -x test
+
+      # Step 5: Run Tests (including Testcontainers)
+      - name: Run Tests
+        run: ./gradlew test
+
+      # Step 6: Run SonarQube analysis
+      - name: Run SonarQube Analysis
+        run: ./gradlew sonarqube -Dsonar.host.url=http://localhost:9000 -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+
+      # Step 7: Export SARIF report to GitHub Packages
+      - name: Export SARIF report to GitHub Packages
+        run: |
+          ./gradlew sonarqube -Dsonar.report.export.path=./build/sonar-report.sarif
+          curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+               -H "Accept: application/vnd.github.v3+json" \
+               -H "Content-Type: application/octet-stream" \
+               --data-binary @./build/sonar-report.sarif \
+               https://uploads.github.com/repos/${{ github.repository }}/packages/container/sonarqube-sarif-report/versions/latest/assets
+
+    volumes:
+      sonar_data:
+        driver: local
