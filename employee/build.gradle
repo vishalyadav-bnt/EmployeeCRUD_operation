@@ -39,11 +39,3 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
-
-sonarqube {
-    properties {
-        property "sonar.projectKey", "employee"
-        property "sonar.host.url", "http://localhost:9000"
-       property "sonar.token", "squ_8cec5c95ab0efab4df7abb17973ee122ff008e6a"
-    }
-}

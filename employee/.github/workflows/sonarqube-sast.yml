@@ -1,4 +1,4 @@
-name: SonarQube Analysis
+name: CI - Static Application Security Testing with SonarQube
 
 on:
   push:
@@ -9,65 +9,53 @@ on:
       - main
 
 jobs:
-  sonarqube:
-    name: SonarQube Scan
+  sonar:
     runs-on: ubuntu-latest
     
     services:
-      sonarqube:
-        image: ghcr.io/sonarsource/sonarqube-community:latest
+      sonar:
+        image: sonarqube:lts
+        options: --health-cmd="curl --silent --fail http://localhost:9000/api/system/health" --health-interval=10s --health-timeout=5s --health-retries=3
         ports:
-          - 9000:9000
-        env:
-          SONAR_ES_BOOTSTRAP_CHECKS_DISABLE: true
-        options: >-
-          --health-cmd "curl -f http://localhost:9000/api/system/status"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+          - 9000:9000  # Expose SonarQube on port 9000
+        volumes:
+          - sonar_data:/opt/sonarqube/data
 
     steps:
+      # Step 1: Checkout the code
       - name: Checkout code
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
+        uses: actions/checkout@v2
 
-      - name: Set up JDK
-        uses: actions/setup-java@v3
+      # Step 2: Set up JDK 11 (or your preferred version)
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
         with:
           java-version: '17'
-          distribution: 'temurin'
-          cache: 'gradle'
 
-      - name: Setup Gradle
-        uses: gradle/gradle-build-action@v2
-
-      - name: Wait for SonarQube
-        run: |
-          echo "Waiting for SonarQube to be ready..."
-          timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:9000/api/system/status)" != "200" ]]; do sleep 5; done' || false
-          sleep 30
-
-      - name: Build and Analyze
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: |
-          ./gradlew sonar \
-            -Dsonar.projectKey=${{ github.event.repository.name }} \
-            -Dsonar.host.url=http://localhost:9000 \
-            -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
-            -Dsonar.qualitygate.wait=true
-
-      - name: Upload SARIF to GitHub Packages
-        uses: actions/upload-artifact@v3
+      # Step 3: Install Gradle
+      - name: Set up Gradle
+        uses: gradle/wrapper-validation-action@v2
         with:
-          name: sonar-sarif-report
-          path: sarif/sonar-report.sarif
-          retention-days: 7
+          gradle-version: '8.8'  # Specify the Gradle version
 
-      - name: Upload SARIF to GitHub Security
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: sarif/sonar-report.sarif
-          category: SonarQube
+      # Step 4: Build the project using Gradle
+      - name: Build with Gradle
+        run: ./gradlew clean build -x test
+
+      # Step 5: Run SonarQube analysis
+      - name: Run SonarQube Analysis
+        run: ./gradlew sonarqube -Dsonar.host.url=http://localhost:9000 -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+
+      # Step 6: Export SARIF report to GitHub Packages
+      - name: Export SARIF report to GitHub Packages
+        run: |
+          ./gradlew sonarqube -Dsonar.report.export.path=./build/sonar-report.sarif
+          curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+               -H "Accept: application/vnd.github.v3+json" \
+               -H "Content-Type: application/octet-stream" \
+               --data-binary @./build/sonar-report.sarif \
+               https://uploads.github.com/repos/${{ github.repository }}/packages/container/sonarqube-sarif-report/versions/latest/assets
+
+    volumes:
+      sonar_data:
+        driver: local
