@@ -37,7 +37,6 @@ dependencies {
 
 
 	testImplementation 'org.testcontainers:testcontainers:1.20.2'
-    testImplementation 'org.testcontainers:sonarqube:1.17.6' 
 }
 
 tasks.named('test') {
