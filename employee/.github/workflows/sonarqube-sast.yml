@@ -1,4 +1,4 @@
-name:sonarqube-sast
+name: sonarqube-sast
 
 on:
   push:
