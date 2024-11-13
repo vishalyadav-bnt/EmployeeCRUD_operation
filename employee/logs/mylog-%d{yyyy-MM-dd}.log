@@ -305,3 +305,79 @@ com.github.dockerjava.api.exception.InternalServerErrorException: Status 500: {"
 2024-11-13 21:18:44 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
 2024-11-13 21:18:44 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
 2024-11-13 21:18:44 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2024-11-13 23:24:35 [Test worker] INFO  c.e.e.EmployeeApplicationTests - Starting EmployeeApplicationTests using Java 21.0.3 with PID 376 (started by vishal.yadav in D:\Scst-workflow-codebase\EmployeeCRUD_operation\employee)
+2024-11-13 23:24:35 [Test worker] INFO  c.e.e.EmployeeApplicationTests - No active profile set, falling back to 1 default profile: "default"
+2024-11-13 23:24:37 [Test worker] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2024-11-13 23:24:37 [Test worker] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-11-13 23:24:37 [Test worker] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 245 ms. Found 1 JPA repository interface.
+2024-11-13 23:24:37 [Test worker] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2024-11-13 23:24:37 [Test worker] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2024-11-13 23:24:37 [Test worker] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.employee.repositiory.EmployeeRepositiory; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2024-11-13 23:24:37 [Test worker] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 9 ms. Found 0 Redis repository interfaces.
+2024-11-13 23:24:38 [Test worker] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-11-13 23:24:39 [Test worker] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.5.2.Final
+2024-11-13 23:24:39 [Test worker] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-11-13 23:24:39 [Test worker] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-11-13 23:24:39 [Test worker] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-11-13 23:24:40 [Test worker] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@6b0ba697
+2024-11-13 23:24:40 [Test worker] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-11-13 23:24:40 [Test worker] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-11-13 23:24:42 [Test worker] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-11-13 23:24:43 [Test worker] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-11-13 23:24:44 [Test worker] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-11-13 23:24:47 [Test worker] INFO  c.e.e.EmployeeApplicationTests - Started EmployeeApplicationTests in 12.191 seconds (process running for 15.64)
+2024-11-13 23:24:49 [Test worker] INFO  o.testcontainers.images.PullPolicy - Image pull policy will be performed by: DefaultPullPolicy()
+2024-11-13 23:24:49 [Test worker] INFO  o.t.utility.ImageNameSubstitutor - Image name substitution will be performed by: DefaultImageNameSubstitutor (composite of 'ConfigurationFileImageNameSubstitutor' and 'PrefixingImageNameSubstitutor')
+2024-11-13 23:24:49 [Test worker] INFO  o.testcontainers.DockerClientFactory - Testcontainers version: 1.20.2
+2024-11-13 23:24:49 [Test worker] INFO  o.t.d.DockerClientProviderStrategy - Loaded org.testcontainers.dockerclient.NpipeSocketClientProviderStrategy from ~/.testcontainers.properties, will try it first
+2024-11-13 23:24:50 [Test worker] INFO  o.t.d.DockerClientProviderStrategy - Found Docker environment with local Npipe socket (npipe:////./pipe/docker_engine)
+2024-11-13 23:24:50 [Test worker] INFO  o.testcontainers.DockerClientFactory - Docker host IP address is localhost
+2024-11-13 23:24:50 [Test worker] INFO  o.testcontainers.DockerClientFactory - Connected to docker: 
+  Server Version: 24.0.2
+  API Version: 1.43
+  Operating System: Docker Desktop
+  Total Memory: 12595 MB
+2024-11-13 23:24:50 [Test worker] INFO  tc.testcontainers/ryuk:0.9.0 - Creating container for image: testcontainers/ryuk:0.9.0
+2024-11-13 23:24:56 [Test worker] INFO  tc.testcontainers/ryuk:0.9.0 - Container testcontainers/ryuk:0.9.0 is starting: 5273f4af07b5ae3939c85b85d14f25d0730896051b4eb985e8e27c2e8f7063f2
+2024-11-13 23:24:57 [Test worker] INFO  tc.testcontainers/ryuk:0.9.0 - Container testcontainers/ryuk:0.9.0 started in PT6.821245S
+2024-11-13 23:24:57 [Test worker] INFO  o.t.utility.RyukResourceReaper - Ryuk started - will monitor and terminate Testcontainers containers on JVM exit
+2024-11-13 23:24:57 [Test worker] INFO  o.testcontainers.DockerClientFactory - Checking the system...
+2024-11-13 23:24:57 [Test worker] INFO  o.testcontainers.DockerClientFactory - ✔︎ Docker server version should be at least 1.6.0
+2024-11-13 23:24:57 [Test worker] INFO  tc.sonarqube:community - Pulling docker image: sonarqube:community. Please be patient; this may take some time but only needs to be done once.
+2024-11-13 23:25:01 [docker-java-stream-1511789228] INFO  tc.sonarqube:community - Starting to pull image
+2024-11-13 23:25:01 [docker-java-stream-1511789228] INFO  tc.sonarqube:community - Pulling image layers:  0 pending,  0 downloaded,  0 extracted, (0 bytes/0 bytes)
+2024-11-13 23:26:05 [docker-java-stream-1511789228] INFO  tc.sonarqube:community - Pulling image layers:  7 pending,  1 downloaded,  0 extracted, (82 MB/? MB)
+2024-11-13 23:26:07 [docker-java-stream-1511789228] INFO  tc.sonarqube:community - Pulling image layers:  7 pending,  1 downloaded,  1 extracted, (84 MB/? MB)
+2024-11-13 23:26:09 [docker-java-stream-1511789228] INFO  tc.sonarqube:community - Pulling image layers:  6 pending,  2 downloaded,  1 extracted, (84 MB/? MB)
+2024-11-13 23:26:10 [docker-java-stream-1511789228] INFO  tc.sonarqube:community - Pulling image layers:  5 pending,  3 downloaded,  1 extracted, (85 MB/? MB)
+2024-11-13 23:26:11 [docker-java-stream-1511789228] INFO  tc.sonarqube:community - Pulling image layers:  4 pending,  4 downloaded,  1 extracted, (85 MB/? MB)
+2024-11-13 23:26:11 [docker-java-stream-1511789228] INFO  tc.sonarqube:community - Pulling image layers:  4 pending,  4 downloaded,  2 extracted, (86 MB/? MB)
+2024-11-13 23:26:13 [docker-java-stream-1511789228] INFO  tc.sonarqube:community - Pulling image layers:  3 pending,  5 downloaded,  2 extracted, (88 MB/? MB)
+2024-11-13 23:26:15 [docker-java-stream-1511789228] INFO  tc.sonarqube:community - Pulling image layers:  2 pending,  6 downloaded,  2 extracted, (94 MB/? MB)
+2024-11-13 23:26:15 [docker-java-stream-1511789228] INFO  tc.sonarqube:community - Pulling image layers:  1 pending,  7 downloaded,  2 extracted, (96 MB/? MB)
+2024-11-13 23:26:17 [docker-java-stream-1511789228] INFO  tc.sonarqube:community - Pulling image layers:  1 pending,  7 downloaded,  3 extracted, (100 MB/? MB)
+2024-11-13 23:26:17 [docker-java-stream-1511789228] INFO  tc.sonarqube:community - Pulling image layers:  1 pending,  7 downloaded,  4 extracted, (100 MB/? MB)
+2024-11-13 23:26:17 [docker-java-stream-1511789228] INFO  tc.sonarqube:community - Pulling image layers:  1 pending,  7 downloaded,  5 extracted, (100 MB/? MB)
+2024-11-13 23:27:48 [docker-java-stream-1511789228] INFO  tc.sonarqube:community - Pull complete. 8 layers, pulled in 166s (downloaded 816 MB at 4 MB/s)
+2024-11-13 23:27:53 [docker-java-stream--119826515] INFO  tc.sonarqube:community - Starting to pull image
+2024-11-13 23:27:53 [docker-java-stream--119826515] INFO  tc.sonarqube:community - Pulling image layers:  0 pending,  0 downloaded,  0 extracted, (0 bytes/0 bytes)
+2024-11-13 23:28:31 [docker-java-stream--119826515] INFO  tc.sonarqube:community - Pulling image layers:  7 pending,  1 downloaded,  0 extracted, (88 MB/? MB)
+2024-11-13 23:28:37 [docker-java-stream--119826515] INFO  tc.sonarqube:community - Pulling image layers:  6 pending,  2 downloaded,  0 extracted, (88 MB/? MB)
+2024-11-13 23:28:38 [docker-java-stream--119826515] INFO  tc.sonarqube:community - Pulling image layers:  5 pending,  3 downloaded,  0 extracted, (88 MB/? MB)
+2024-11-13 23:29:38 [docker-java-stream--119826515] INFO  tc.sonarqube:community - Pulling image layers:  4 pending,  4 downloaded,  0 extracted, (800 MB/? MB)
+2024-11-13 23:29:38 [docker-java-stream--119826515] INFO  tc.sonarqube:community - Pulling image layers:  3 pending,  5 downloaded,  0 extracted, (800 MB/? MB)
+2024-11-13 23:30:05 [docker-java-stream--119826515] INFO  tc.sonarqube:community - Pull complete. 8 layers, pulled in 131s (downloaded 816 MB at 6 MB/s)
+2024-11-13 23:30:05 [Test worker] INFO  tc.sonarqube:community - Pulling docker image: sonarqube:community. Please be patient; this may take some time but only needs to be done once.
+2024-11-13 23:30:11 [docker-java-stream-1511789228] INFO  tc.sonarqube:community - Starting to pull image
+2024-11-13 23:30:11 [docker-java-stream-1511789228] INFO  tc.sonarqube:community - Pulling image layers:  0 pending,  0 downloaded,  0 extracted, (0 bytes/0 bytes)
+2024-11-13 23:31:56 [docker-java-stream--119826515] INFO  tc.sonarqube:community - Starting to pull image
+2024-11-13 23:31:56 [docker-java-stream--119826515] INFO  tc.sonarqube:community - Pulling image layers:  0 pending,  0 downloaded,  0 extracted, (0 bytes/0 bytes)
+2024-11-13 23:32:59 [docker-java-stream--119826515] INFO  tc.sonarqube:community - Pulling image layers:  7 pending,  1 downloaded,  0 extracted, (88 MB/? MB)
+2024-11-13 23:33:00 [docker-java-stream--119826515] INFO  tc.sonarqube:community - Pulling image layers:  6 pending,  2 downloaded,  0 extracted, (88 MB/? MB)
+2024-11-13 23:33:01 [docker-java-stream--119826515] INFO  tc.sonarqube:community - Pulling image layers:  5 pending,  3 downloaded,  0 extracted, (88 MB/? MB)
+2024-11-13 23:33:21 [docker-java-stream--119826515] INFO  tc.sonarqube:community - Pulling image layers:  4 pending,  4 downloaded,  0 extracted, (816 MB/? MB)
+2024-11-13 23:33:21 [docker-java-stream--119826515] INFO  tc.sonarqube:community - Pulling image layers:  3 pending,  5 downloaded,  0 extracted, (816 MB/? MB)
+2024-11-13 23:34:32 [docker-java-stream--119826515] INFO  tc.sonarqube:community - Pull complete. 8 layers, pulled in 155s (downloaded 816 MB at 5 MB/s)
+2024-11-13 23:34:32 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-11-13 23:34:32 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2024-11-13 23:34:32 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
