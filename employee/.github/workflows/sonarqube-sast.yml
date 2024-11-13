@@ -33,7 +33,7 @@ jobs:
         timeout-minutes: 5
 
       - name: Run Sonar Scanner
-        run: ./gradlew sonar -Dsonar.projectKey=employee \
+        run:  gradlew sonar -Dsonar.projectKey=employee \
                               -Dsonar.host.url=http://localhost:9000 \
                               -Dsonar.token=${{ secrets.SONAR_TOKEN }}
 
