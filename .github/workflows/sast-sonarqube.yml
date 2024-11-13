@@ -42,7 +42,7 @@ jobs:
 
     services:
       sonar:
-        image: ghcr.io/testcontainers/sonarqube:lts  
+        image: sonarqube:lts  
         options: --health-cmd="curl --silent --fail http://localhost:9000/api/system/health" --health-interval=10s --health-timeout=5s --health-retries=3
         ports:
           - 9000:9000  # Expose SonarQube on port 9000
