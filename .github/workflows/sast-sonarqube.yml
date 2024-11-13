@@ -41,7 +41,7 @@ jobs:
 
       - name: Start SonarQube container
         run: |
-          docker run -d --name sonarqube -p 9000:9000 sonarqube:latest
+          docker run -d --name sonarqube -p 9000:9000 sonarqube:community
           sleep 60  # Allow time for SonarQube to fully start
 
       - name: Build with Gradle and Run SonarQube Test
@@ -50,7 +50,7 @@ jobs:
           ./gradlew clean build --warning-mode all  # Show all deprecation warnings
           ./gradlew test --tests SonarQubeIntegrationTest
           ./gradlew sonar \
-            -Dsonar.projectKey=YourProjectKey \
+            -Dsonar.projectKey=employee \
             -Dsonar.host.url=http://localhost:9000 \
             -Dsonar.login=${{ secrets.SONAR_TOKEN }}  # Ensure SONAR_TOKEN is set in GitHub Secrets
 
