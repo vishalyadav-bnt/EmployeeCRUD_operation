@@ -22,6 +22,7 @@ jobs:
           java-version: '17'
 
       - name: Build with Gradle and Run SonarQube Test
+        working-directory: employee
         run: |
           ./gradlew clean build
           ./gradlew test --tests SonarQubeIntegrationTest
