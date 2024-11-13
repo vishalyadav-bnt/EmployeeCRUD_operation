@@ -87,7 +87,3 @@ jobs:
                -H "Content-Type: application/octet-stream" \
                --data-binary @./build/sonar-report.sarif \
                https://uploads.github.com/repos/${{ github.repository }}/packages/container/sonarqube-sarif-report/versions/latest/assets
-
-    volumes:
-      sonar_data:
-        driver: local
