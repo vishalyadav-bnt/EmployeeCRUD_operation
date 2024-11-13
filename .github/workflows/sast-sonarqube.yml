@@ -24,8 +24,8 @@ jobs:
       - name: Build with Gradle and Run SonarQube Test
         run: |
           cd employee
-          gradlew clean build
-          gradlew test --tests SonarQubeIntegrationTest
+          ./gradlew clean build
+          ./gradlew test --tests SonarQubeIntegrationTest
 
       - name: Upload SARIF Report
         uses: github/codeql-action/upload-sarif@v2
