@@ -25,7 +25,7 @@ jobs:
       - name: Start SonarQube Docker Container
         run: |
           docker run -d --name sonarqube -p 9000:9000 sonarqube:community
-          # Wait for SonarQube to start up by checking its health status
+          
           until curl -s http://localhost:9000/api/system/health | grep -q '"status":"GREEN"'; do
             echo "Waiting for SonarQube to be ready..."
             sleep 10
