@@ -1,87 +1,32 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
-# This workflow helps you trigger a SonarQube analysis of your code and populates
-# GitHub Code Scanning alerts with the vulnerabilities found.
-# (this feature is available starting from SonarQube 9.7, Developer Edition and above)
-
-# 1. Make sure you add a valid GitHub configuration to your SonarQube (Administration > DevOps platforms > GitHub)
-
-# 2. Import your project on SonarQube
-#     * Add your repository as a new project by clicking "Create project" from your homepage.
-#
-# 3. Select GitHub Actions as your CI and follow the tutorial
-#     * a. Generate a new token and add it to your GitHub repository's secrets using the name SONAR_TOKEN
-#          (On SonarQube, click on your avatar on top-right > My account > Security or ask your administrator)
-#
-#     * b. Copy/paste your SonarQube host URL to your GitHub repository's secrets using the name SONAR_HOST_URL
-#
-#     * c. Copy/paste the project Key into the args parameter below
-#          (You'll find this information in SonarQube by following the tutorial or by clicking on Project Information at the top-right of your project's homepage)
-
-# Feel free to take a look at our documentation (https://docs.sonarqube.org/latest/analysis/github-integration/)
-# or reach out to our community forum if you need some help (https://community.sonarsource.com/c/sq/10)
-
-name: SonarQube analysis
+name: Static Application Security Testing with SonarQube and TestContainers
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
   pull_request:
-    branches: [ "main" ]
-  workflow_dispatch:
-
-permissions:
-  pull-requests: read # allows SonarQube to decorate PRs with analysis results
+    branches:
+      - main
 
 jobs:
-  sonar:
+  sonar-scan:
     runs-on: ubuntu-latest
-
-    services:
-      sonar:
-        image: sonarqube:lts  
-        options: --health-cmd="curl --silent --fail http://localhost:9000/api/system/health" --health-interval=10s --health-timeout=5s --health-retries=3
-        ports:
-          - 9000:9000  # Expose SonarQube on port 9000
-
     steps:
-      # Step 1: Checkout the code
-      - name: Checkout code
+      - name: Check out the code
         uses: actions/checkout@v2
 
-      # Step 2: Set up JDK 17
-      - name: Set up JDK 17
+      - name: Set up Java
         uses: actions/setup-java@v2
         with:
+          distribution: 'adopt'
           java-version: '17'
 
-      # Step 3: Set up Gradle
-      - name: Set up Gradle
-        uses: gradle/wrapper-validation-action@v2
-        with:
-          gradle-version: '8.8'  # Use the appropriate Gradle version
-
-      # Step 4: Build the project using Gradle (without tests)
-      - name: Build with Gradle
-        run: ./gradlew clean build -x test
-
-      # Step 5: Run Tests (including Testcontainers)
-      - name: Run Tests
-        run: ./gradlew test
-
-      # Step 6: Run SonarQube analysis
-      - name: Run SonarQube Analysis
-        run: ./gradlew sonarqube -Dsonar.host.url=http://localhost:9000 -Dsonar.login=squ_8cec5c95ab0efab4df7abb17973ee122ff008e6a
-
-      # Step 7: Export SARIF report to GitHub Packages
-      - name: Export SARIF report to GitHub Packages
+      - name: Build with Gradle and Run SonarQube Test
         run: |
-          ./gradlew sonarqube -Dsonar.report.export.path=./build/sonar-report.sarif
-          curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-               -H "Accept: application/vnd.github.v3+json" \
-               -H "Content-Type: application/octet-stream" \
-               --data-binary @./build/sonar-report.sarif \
-               https://uploads.github.com/repos/${{ github.repository }}/packages/container/sonarqube-sarif-report/versions/latest/assets
+          ./gradlew clean build
+          ./gradlew test --tests SonarQubeIntegrationTest
+
+      - name: Upload SARIF Report
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: build/reports/sonar/report.sarif
