@@ -44,9 +44,14 @@ jobs:
           cd employee
           ./gradlew clean build --warning-mode all  # Show all deprecation warnings
           ./gradlew test --tests SonarQubeIntegrationTest
+
+          # Get the SonarQube container port dynamically
+          SONAR_PORT=$(docker port $(docker ps -q --filter "ancestor=sonarqube:community") 9000 | cut -d: -f2)
+
+          # Run the SonarQube analysis, pointing to the correct container port
           ./gradlew sonar \
             -Dsonar.projectKey=employee \
-            -Dsonar.host.url=http://localhost:9000 \
+            -Dsonar.host.url=http://localhost:${SONAR_PORT} \
             -Dsonar.login=${{ secrets.SONAR_TOKEN }}  # Ensure SONAR_TOKEN is set in GitHub Secrets
 
       - name: Upload SARIF Report
