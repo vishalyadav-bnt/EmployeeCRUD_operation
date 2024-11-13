@@ -1,4 +1,4 @@
-name: sonarqube-sast
+name: SonarQube Analysis
 
 on:
   push:
@@ -9,46 +9,65 @@ on:
       - main
 
 jobs:
-  sast:
+  sonarqube:
+    name: SonarQube Scan
     runs-on: ubuntu-latest
+    
+    services:
+      sonarqube:
+        image: ghcr.io/sonarsource/sonarqube-community:latest
+        ports:
+          - 9000:9000
+        env:
+          SONAR_ES_BOOTSTRAP_CHECKS_DISABLE: true
+        options: >-
+          --health-cmd "curl -f http://localhost:9000/api/system/status"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
-      - name: Check out the code
-        uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
-      - name: Set up Java
+      - name: Set up JDK
         uses: actions/setup-java@v3
         with:
-          distribution: 'temurin'
           java-version: '17'
+          distribution: 'temurin'
+          cache: 'gradle'
 
-      - name: Start SonarQube Docker Container
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+
+      - name: Wait for SonarQube
         run: |
-          docker run -d --name sonarqube -p 9000:9000 sonarqube:community
-          
-          until curl -s http://localhost:9000/api/system/health | grep -q '"status":"GREEN"'; do
-            echo "Waiting for SonarQube to be ready..."
-            sleep 10
-          done
-        timeout-minutes: 5
+          echo "Waiting for SonarQube to be ready..."
+          timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:9000/api/system/status)" != "200" ]]; do sleep 5; done' || false
+          sleep 30
 
-      - name: Run Sonar Scanner
-        run:  gradlew sonar -Dsonar.projectKey=employee \
-                              -Dsonar.host.url=http://localhost:9000 \
-                              -Dsonar.token=${{ secrets.SONAR_TOKEN }}
-
-      - name: Generate SARIF Report
+      - name: Build and Analyze
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          # Move SARIF file to designated location for upload
-          mv target/sonar/sarif-report.sarif $GITHUB_WORKSPACE/
+          ./gradlew sonar \
+            -Dsonar.projectKey=${{ github.event.repository.name }} \
+            -Dsonar.host.url=http://localhost:9000 \
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
+            -Dsonar.qualitygate.wait=true
 
-      - name: Upload SARIF report to GitHub Container Registry
-        uses: actions/upload-artifact@v2
+      - name: Upload SARIF to GitHub Packages
+        uses: actions/upload-artifact@v3
         with:
-          name: SonarQube-SARIF-Report
-          path: $GITHUB_WORKSPACE/sarif-report.sarif
+          name: sonar-sarif-report
+          path: sarif/sonar-report.sarif
+          retention-days: 7
 
-      - name: Publish SARIF report for GitHub Code Scanning
+      - name: Upload SARIF to GitHub Security
         uses: github/codeql-action/upload-sarif@v2
         with:
-          sarif_file: $GITHUB_WORKSPACE/sarif-report.sarif
+          sarif_file: sarif/sonar-report.sarif
+          category: SonarQube
