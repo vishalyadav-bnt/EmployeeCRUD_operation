@@ -63,7 +63,7 @@ jobs:
           ./gradlew test --tests SonarQubeIntegrationTest
 
           # Run the SonarQube analysis, pointing to the correct container port
-          gradlew sonar \
+          ./gradlew sonar \
             -Dsonar.projectKey=employee \
             -Dsonar.host.url=http://localhost:9000 \
             -Dsonar.login=${{ secrets.SONAR_TOKEN }}  # Ensure SONAR_TOKEN is set in GitHub Secrets
