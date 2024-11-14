@@ -39,10 +39,10 @@ jobs:
       - name: Grant execute permission for Gradle
         run: chmod +x employee/gradlew
 
-      - name: Start SonarQube container
-        run: |
-          # Start SonarQube container using Docker
-          docker run -d -p 9000:9000 --name sonarqube sonarqube:community
+      # - name: Start SonarQube container
+      #   run: |
+      #     # Start SonarQube container using Docker
+      #     docker run -d -p 9000:9000 --name sonarqube sonarqube:community
 
       - name: Wait for SonarQube to be ready
         run: |
@@ -64,8 +64,10 @@ jobs:
 
           # Run the SonarQube analysis, pointing to the correct container port
           ./gradlew sonar \
+            -Dsonar.login=admin \
             -Dsonar.projectKey=employee \
             -Dsonar.host.url=http://localhost:9000 \
+            -Dsonar.token=squ_2dac043a19e8d56d448f2ad292be20f5def26311
 
       - name: Upload SARIF Report
         uses: github/codeql-action/upload-sarif@v2
