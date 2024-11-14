@@ -39,36 +39,38 @@ jobs:
       - name: Grant execute permission for Gradle
         run: chmod +x employee/gradlew
 
-      # - name: Start SonarQube container
-      #   run: |
-      #     # Start SonarQube container using Docker
-      #     docker run -d -p 9000:9000 --name sonarqube sonarqube:community
 
+- name: Cache SonarQube packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+ 
       - name: Wait for SonarQube to be ready
         run: |
-          echo "Waiting for SonarQube to start..."
-          for i in {1..30}; do
-            if curl -s http://localhost:9000 | grep -q "SonarQube"; then
-              echo "SonarQube is up and running!"
-              break
-            fi
-            echo "Waiting for SonarQube..."
-            sleep 10
-          done
-
-      - name: Build with Gradle and Run SonarQube Test
+          timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:9000)" != "200" ]]; do sleep 5; done'
+ 
+      - name: Generate authentication token
         run: |
-          cd employee
-          ./gradlew clean build --warning-mode all  # Show all deprecation warnings
-          ./gradlew test --tests SonarQubeIntegrationTest
-
-          # Run the SonarQube analysis, pointing to the correct container port
-          ./gradlew sonar --stacktrace \
-            -Dsonar.login=admin \
-            -Dsonar.password=admin \
-            -Dsonar.projectKey=employee \
-            -Dsonar.host.url=http://localhost:9000 \
-
+          echo "SONAR_TOKEN=$(curl -X POST -u admin:admin 'http://localhost:9000/api/user_tokens/generate' \
+            -H 'Content-Type: application/x-www-form-urlencoded' \
+            --data-raw 'name=github-action' | jq -r '.token')" >> $GITHUB_ENV
+ 
+      - name: Build and analyze with SonarQube
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_HOST_URL: http://localhost:9000
+        run: |
+          mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+          -Dsonar.projectKey=spring-boot-app \
+          -Dsonar.host.url=${{ env.SONAR_HOST_URL }} \
+          -Dsonar.login=${{ env.SONAR_TOKEN }} \
+          -Dsonar.sourceEncoding=UTF-8 \
+          -Dsonar.java.binaries=target/classes \
+          -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml \
+          -Dsonar.analysis.mode=publish
+          
       - name: Upload SARIF Report
         uses: github/codeql-action/upload-sarif@v2
         with:
