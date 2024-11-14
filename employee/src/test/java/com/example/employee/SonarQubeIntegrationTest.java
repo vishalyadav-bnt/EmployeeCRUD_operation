@@ -28,6 +28,10 @@ public class SonarQubeIntegrationTest {
                     
                     // Set system property for Gradle to use
                     System.setProperty("sonar.host.url", "http://localhost:" + mappedPort);
+                    System.setProperty("sonar.login", "admin");  
+                    System.setProperty("sonar.password", "admin");
+                    System.setProperty("sonar.projectKey", "employee");
+                    
                 } else {
                     System.err.println("SonarQube container failed to start.");
                 }
