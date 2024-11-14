@@ -51,7 +51,7 @@ jobs:
         run: |
           timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:9000)" != "200" ]]; do sleep 5; done'
  
-      - name: Generate authentication token
+      - name:  Generate authentication token
         run: |
           echo "SONAR_TOKEN=$(curl -X POST -u admin:admin 'http://localhost:9000/api/user_tokens/generate' \
             -H 'Content-Type: application/x-www-form-urlencoded' \
@@ -70,7 +70,6 @@ jobs:
           -Dsonar.java.binaries=target/classes \
           -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml \
           -Dsonar.analysis.mode=publish
-          
       - name: Upload SARIF Report
         uses: github/codeql-action/upload-sarif@v2
         with:
