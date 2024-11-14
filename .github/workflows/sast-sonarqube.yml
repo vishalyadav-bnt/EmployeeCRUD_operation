@@ -37,7 +37,7 @@ jobs:
           cache: gradle
 
       - name: Make Gradle wrapper executable
-        run: chmod +x ./gradlew
+        run: chmod +x employee/gradlew
 
       - name: Cache SonarQube packages
         uses: actions/cache@v3
