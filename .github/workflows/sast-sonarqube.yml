@@ -42,8 +42,8 @@ jobs:
       - name: Build with Gradle and Run SonarQube Test
         run: |
           cd employee
-          gradlew clean build --warning-mode all  # Show all deprecation warnings
-          gradlew test --tests SonarQubeIntegrationTest
+          ./gradlew clean build --warning-mode all  # Show all deprecation warnings
+          ./gradlew test --tests SonarQubeIntegrationTest
 
           # Get the SonarQube container port dynamically
           SONAR_PORT=$(docker port $(docker ps -q --filter "ancestor=sonarqube:community") 9000 | cut -d: -f2)
