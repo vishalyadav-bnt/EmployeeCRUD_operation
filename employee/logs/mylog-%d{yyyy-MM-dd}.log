@@ -109,3 +109,48 @@
 2024-11-14 10:23:44 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
 2024-11-14 10:23:44 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
 2024-11-14 10:23:44 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2024-11-14 12:06:17 [Test worker] INFO  c.e.e.EmployeeApplicationTests - Starting EmployeeApplicationTests using Java 21.0.3 with PID 15104 (started by vishal.yadav in D:\Scst-workflow-codebase\EmployeeCRUD_operation\employee)
+2024-11-14 12:06:17 [Test worker] INFO  c.e.e.EmployeeApplicationTests - No active profile set, falling back to 1 default profile: "default"
+2024-11-14 12:06:18 [Test worker] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2024-11-14 12:06:18 [Test worker] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-11-14 12:06:18 [Test worker] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 172 ms. Found 1 JPA repository interface.
+2024-11-14 12:06:18 [Test worker] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2024-11-14 12:06:18 [Test worker] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2024-11-14 12:06:18 [Test worker] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.employee.repositiory.EmployeeRepositiory; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2024-11-14 12:06:18 [Test worker] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 6 ms. Found 0 Redis repository interfaces.
+2024-11-14 12:06:19 [Test worker] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-11-14 12:06:19 [Test worker] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.5.2.Final
+2024-11-14 12:06:19 [Test worker] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-11-14 12:06:20 [Test worker] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-11-14 12:06:20 [Test worker] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-11-14 12:06:20 [Test worker] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@64544ee4
+2024-11-14 12:06:20 [Test worker] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-11-14 12:06:20 [Test worker] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-11-14 12:06:21 [Test worker] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-11-14 12:06:21 [Test worker] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-11-14 12:06:22 [Test worker] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-11-14 12:06:24 [Test worker] INFO  c.e.e.EmployeeApplicationTests - Started EmployeeApplicationTests in 8.119 seconds (process running for 9.79)
+2024-11-14 12:06:25 [Test worker] INFO  o.testcontainers.images.PullPolicy - Image pull policy will be performed by: DefaultPullPolicy()
+2024-11-14 12:06:25 [Test worker] INFO  o.t.utility.ImageNameSubstitutor - Image name substitution will be performed by: DefaultImageNameSubstitutor (composite of 'ConfigurationFileImageNameSubstitutor' and 'PrefixingImageNameSubstitutor')
+2024-11-14 12:06:25 [Test worker] INFO  o.testcontainers.DockerClientFactory - Testcontainers version: 1.20.2
+2024-11-14 12:06:25 [Test worker] INFO  o.t.d.DockerClientProviderStrategy - Loaded org.testcontainers.dockerclient.NpipeSocketClientProviderStrategy from ~/.testcontainers.properties, will try it first
+2024-11-14 12:06:26 [Test worker] INFO  o.t.d.DockerClientProviderStrategy - Found Docker environment with local Npipe socket (npipe:////./pipe/docker_engine)
+2024-11-14 12:06:26 [Test worker] INFO  o.testcontainers.DockerClientFactory - Docker host IP address is localhost
+2024-11-14 12:06:26 [Test worker] INFO  o.testcontainers.DockerClientFactory - Connected to docker: 
+  Server Version: 24.0.2
+  API Version: 1.43
+  Operating System: Docker Desktop
+  Total Memory: 12595 MB
+2024-11-14 12:06:26 [Test worker] INFO  tc.testcontainers/ryuk:0.9.0 - Creating container for image: testcontainers/ryuk:0.9.0
+2024-11-14 12:06:29 [Test worker] INFO  tc.testcontainers/ryuk:0.9.0 - Container testcontainers/ryuk:0.9.0 is starting: 051ce73e821e13c0d9eaddbc9133d64c060f84ab90debe50bd3827894aa4049f
+2024-11-14 12:06:29 [Test worker] INFO  tc.testcontainers/ryuk:0.9.0 - Container testcontainers/ryuk:0.9.0 started in PT3.5046544S
+2024-11-14 12:06:29 [Test worker] INFO  o.t.utility.RyukResourceReaper - Ryuk started - will monitor and terminate Testcontainers containers on JVM exit
+2024-11-14 12:06:29 [Test worker] INFO  o.testcontainers.DockerClientFactory - Checking the system...
+2024-11-14 12:06:29 [Test worker] INFO  o.testcontainers.DockerClientFactory - ✔︎ Docker server version should be at least 1.6.0
+2024-11-14 12:06:29 [Test worker] INFO  tc.sonarqube:community - Creating container for image: sonarqube:community
+2024-11-14 12:06:30 [Test worker] INFO  tc.sonarqube:community - Container sonarqube:community is starting: 6f6b0882428251d76407f784aa8de937e57590bb5c80d568eb8a985ba9eba34e
+2024-11-14 12:06:30 [Test worker] INFO  o.t.c.wait.strategy.HttpWaitStrategy - /loving_torvalds: Waiting for 300 seconds for URL: http://localhost:55125/ (where port 55125 maps to container port 9000)
+2024-11-14 12:06:57 [Test worker] INFO  tc.sonarqube:community - Container sonarqube:community started in PT27.1376135S
+2024-11-14 12:06:58 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-11-14 12:06:58 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2024-11-14 12:06:58 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
