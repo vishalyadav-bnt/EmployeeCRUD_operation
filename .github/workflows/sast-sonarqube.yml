@@ -42,17 +42,24 @@ jobs:
       - name: Build with Gradle and Run SonarQube Test
         run: |
           cd employee
-          ./gradlew clean build --warning-mode all  # Show all deprecation warnings
+          ./gradlew clean build --warning-mode all
           ./gradlew test --tests SonarQubeIntegrationTest
 
-          # Get the SonarQube container port dynamically
-          SONAR_PORT=$(docker port $(docker ps -q --filter "ancestor=sonarqube:community") 9000 | cut -d: -f2)
+          # Check if SonarQube container is up and retrieve the port
+          CONTAINER_ID=$(docker ps -q --filter "ancestor=sonarqube:community")
+          if [ -n "$CONTAINER_ID" ]; then
+            SONAR_PORT=$(docker port $CONTAINER_ID 9000 | cut -d: -f2)
+            echo "SonarQube running on port: ${SONAR_PORT}"
+          else
+            echo "SonarQube container not found, check the TestContainers setup."
+            exit 1
+          fi
 
-          # Run the SonarQube analysis, pointing to the correct container port
+          # Run SonarQube analysis with the detected port
           ./gradlew sonar \
             -Dsonar.projectKey=employee \
             -Dsonar.host.url=http://localhost:${SONAR_PORT} \
-            -Dsonar.login=${{ secrets.SONAR_TOKEN }}  # Ensure SONAR_TOKEN is set in GitHub Secrets
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
 
       - name: Upload SARIF Report
         uses: github/codeql-action/upload-sarif@v2
