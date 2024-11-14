@@ -25,10 +25,21 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+      sonarqube:
+        image: sonarqube:community
+        ports:
+          - 9000:9000
+        options: >-
+          --health-cmd "curl -f http://localhost:9000/api/system/status"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
       - name: Check out the code
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0  # Important for SonarQube to get full history
 
       - name: Set up Java
         uses: actions/setup-java@v2
@@ -39,20 +50,25 @@ jobs:
       - name: Grant execute permission for Gradle
         run: chmod +x employee/gradlew
 
-      - name: Build with Gradle and Run SonarQube Test
+      - name: Wait for SonarQube to be ready
+        run: |
+          timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:9000)" != "200" ]]; do sleep 5; done' || false
+
+      - name: Build and Test
         run: |
           cd employee
-          ./gradlew clean build --warning-mode all  # Show all deprecation warnings
+          ./gradlew clean build --warning-mode all
           ./gradlew test --tests SonarQubeIntegrationTest
 
-          # Get the SonarQube container port dynamically
-          SONAR_PORT=$(docker port $(docker ps -q --filter "ancestor=sonarqube:community") 9000 | cut -d: -f2)
-
-          # Run the SonarQube analysis, pointing to the correct container port
+      - name: Run SonarQube Analysis
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          cd employee
           ./gradlew sonar \
             -Dsonar.projectKey=employee \
-            -Dsonar.host.url=http://localhost:${SONAR_PORT} \
-            -Dsonar.login=${{ secrets.SONAR_TOKEN }}  # Ensure SONAR_TOKEN is set in GitHub Secrets
+            -Dsonar.host.url=http://localhost:9000 \
+            -Dsonar.login=${{ env.SONAR_TOKEN }}
 
       - name: Upload SARIF Report
         uses: github/codeql-action/upload-sarif@v2
