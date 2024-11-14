@@ -59,7 +59,7 @@ jobs:
         run: |
           timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:9000)" != "200" ]]; do sleep 5; done'
 
-      name: Build and analyze
+      - name: Build and analyze
         env:
           SONAR_HOST_URL: http://localhost:9000
           SONAR_LOGIN: admin
