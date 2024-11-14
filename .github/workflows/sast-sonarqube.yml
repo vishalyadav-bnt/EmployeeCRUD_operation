@@ -59,8 +59,8 @@ jobs:
       - name: Build with Gradle and Run SonarQube Test
         run: |
           cd employee
-          gradlew clean build --warning-mode all  # Show all deprecation warnings
-          gradlew test --tests SonarQubeIntegrationTest
+          ./gradlew clean build --warning-mode all  # Show all deprecation warnings
+          ./gradlew test --tests SonarQubeIntegrationTest
 
           # Run the SonarQube analysis, pointing to the correct container port
           gradlew sonar \
