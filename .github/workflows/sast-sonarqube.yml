@@ -63,11 +63,11 @@ jobs:
           ./gradlew test --tests SonarQubeIntegrationTest
 
           # Run the SonarQube analysis, pointing to the correct container port
-          ./gradlew sonar \
+          ./gradlew sonar --stacktrace \
             -Dsonar.login=admin \
+            -Dsonar.password=admin \
             -Dsonar.projectKey=employee \
             -Dsonar.host.url=http://localhost:9000 \
-            -Dsonar.token=squ_2dac043a19e8d56d448f2ad292be20f5def26311
 
       - name: Upload SARIF Report
         uses: github/codeql-action/upload-sarif@v2
