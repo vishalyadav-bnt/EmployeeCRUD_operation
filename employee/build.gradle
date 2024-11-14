@@ -2,7 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.3.1'
 	id 'io.spring.dependency-management' version '1.1.5'
-	id 'org.sonarqube' version '5.1.0.4882'
+	id "org.sonarqube" version '5.1.0.4882'                         //'5.1.0.4882'
 }
 
 group = 'com.example'
@@ -37,6 +37,16 @@ dependencies {
 
 
 	testImplementation 'org.testcontainers:testcontainers:1.20.2'
+}
+
+
+sonarqube {
+    properties {
+		property "Dsonar.login", "admin"
+        property "Dsonar.projectKey", "employee"  
+        property "Dsonar.host.url", "http://localhost:9000"  
+        property "Dsonar.token", "squ_2dac043a19e8d56d448f2ad292be20f5def26311"  
+    }
 }
 
 tasks.named('test') {
