@@ -64,5 +64,5 @@ jobs:
           SONAR_HOST_URL: http://localhost:9000
           SONAR_LOGIN: admin
           SONAR_PASSWORD: admin
-        run: ./gradlew clean build sonarqube --stacktrace --info
+        run: ./gradlew clean build sonarqube --stacktrace 
         working-directory: ./employee
